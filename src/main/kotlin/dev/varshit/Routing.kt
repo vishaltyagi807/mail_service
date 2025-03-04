@@ -17,8 +17,11 @@ object MailTemplate {
         var fileContent =
             file.readText().replace("[Name]", data.name)
                 .replace("[Date]", data.date)
-                .replace("[Address]", "Meerut")
-                .replace("[Your Name]", "Varshit Tyagi")
+                .replace("[Address]", "MIET, Meerut")
+                .replace("[Your Name]", data.doctorName)
+                .replace("[Doctor]", data.doctorName)
+                .replace("[Phone]", data.phoneNumber)
+                .replace("[Contact Information]", "example@gmail.com")
         fileContent = if (!data.note.isNullOrEmpty()) {
             fileContent
                 .replace("[<p>&bull; Time: [Time]</p>]", "<p>&bull; Note: ${data.note}</p>")
@@ -47,7 +50,7 @@ fun Application.configureRouting() {
                     val params = CreateEmailOptions.builder()
                         .from(request.from)
                         .to(request.to)
-                        .subject("Appointment has been scheduled!...")
+                        .subject(request.subject)
                         .html(data)
                         .build()
                     resend.emails().send(params)
